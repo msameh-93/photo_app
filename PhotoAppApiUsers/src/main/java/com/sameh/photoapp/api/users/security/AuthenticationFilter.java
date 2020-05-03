@@ -29,12 +29,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 //triggered by /login endpoint
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private UserService userServ;
-	@Autowired
 	private Environment env;
 	@Autowired
-	public AuthenticationFilter(UserService userServ, AuthenticationManager authManager) {
+	public AuthenticationFilter(UserService userServ, AuthenticationManager authManager, Environment env) {
 		this.userServ= userServ;
 		super.setAuthenticationManager(authManager);
+		this.env= env;
 	}
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -61,7 +61,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		String email= ((User) authResult.getPrincipal()).getUsername();
 		
 		UserDto userDto= userServ.getUserDetailsByEmail(email);
-		
+
 		String token= Jwts.builder()
 				.setSubject(userDto.getUserId())
 				.setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expiry"))))

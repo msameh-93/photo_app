@@ -1,4 +1,4 @@
-package com.sameh.photoapp.api.users.security;
+package com.sameh.photoapp.api.gateway.security;
 
 import java.io.IOException;
 
@@ -12,14 +12,17 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthEntry implements AuthenticationEntryPoint {
+public class AuthenticationEntry implements AuthenticationEntryPoint {
+
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		String jsonInvalidLoginResponse= "Not Authorized, Sorry! @users security";
+		
+		String notAuthMsg= "Not Authorized, sorry! @zuul security";
 		
 		response.setContentType("application/json");
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.getWriter().print(jsonInvalidLoginResponse);
+		response.getWriter().print(notAuthMsg);
 	}
+
 }

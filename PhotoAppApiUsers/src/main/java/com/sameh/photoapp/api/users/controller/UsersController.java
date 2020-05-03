@@ -7,6 +7,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,10 @@ public class UsersController {
 	public String status() {
 		return "Working on port: " + env.getProperty("local.server.port");
 	}
-	@PostMapping
+	@PostMapping(
+			consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE} 
+			)
 	public ResponseEntity<?> createUser(@RequestBody@Valid SignUpRequest user, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			return new ResponseEntity<String>("Not valid object @controller", HttpStatus.BAD_REQUEST);

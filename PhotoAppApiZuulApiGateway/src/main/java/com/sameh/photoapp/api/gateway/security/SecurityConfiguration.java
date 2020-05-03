@@ -32,7 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/users_webservice/api/users").permitAll()
 				.antMatchers(HttpMethod.POST, "/users_webservice/api/users/signin").permitAll()
+				.antMatchers(HttpMethod.GET, "/users_webservice/actuator/*").permitAll()
 				.antMatchers("/users_webservice/h2-console").permitAll()
+				.antMatchers("/actuator/*").permitAll()
 				.anyRequest().authenticated();
 	}
 }

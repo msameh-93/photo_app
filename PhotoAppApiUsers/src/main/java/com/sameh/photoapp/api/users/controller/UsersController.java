@@ -31,7 +31,10 @@ public class UsersController {
 	
 	@GetMapping("/status/check")
 	public String status() {
-		return "Working on port: " + env.getProperty("local.server.port");
+		return "Working on port: " + env.getProperty("local.server.port")
+			+ " & JWT: " + env.getProperty("token.secret")
+			+ "\n" + env.getProperty("spring.rabbitmq.host")
+			+ ":"+ env.getProperty("spring.rabbitmq.port");
 	}
 	@PostMapping(
 			consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},

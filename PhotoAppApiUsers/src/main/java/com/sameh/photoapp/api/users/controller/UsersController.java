@@ -33,6 +33,7 @@ public class UsersController {
 	public String status() {
 		return "Working on port: " + env.getProperty("local.server.port")
 			+ " & JWT: " + env.getProperty("token.secret")
+			+ "\n& Expiry: " + env.getProperty("token.expiry")
 			+ "\n" + env.getProperty("spring.rabbitmq.host")
 			+ ":"+ env.getProperty("spring.rabbitmq.port");
 	}

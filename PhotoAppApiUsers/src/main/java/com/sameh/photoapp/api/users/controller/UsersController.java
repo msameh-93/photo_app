@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sameh.photoapp.api.users.dto.UserDto;
 import com.sameh.photoapp.api.users.model.SignUpRequest;
 import com.sameh.photoapp.api.users.model.SignUpResponse;
+import com.sameh.photoapp.api.users.model.UserResponse;
 import com.sameh.photoapp.api.users.service.UserService;
 
 @RestController
@@ -53,5 +55,13 @@ public class UsersController {
 		UserDto userResponse= userServ.createUser(userDto);
 		
 		return new ResponseEntity<SignUpResponse>(modelMapper.map(userResponse, SignUpResponse.class), HttpStatus.CREATED);
+	}
+	@GetMapping(value= "/{userId}", produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE} )
+	public ResponseEntity<UserResponse> getUser(@PathVariable("userId") String userId) {
+		UserDto user= userServ.getUserById(userId);
+		
+		UserResponse userResponse= new ModelMapper().map(user, UserResponse.class);
+		
+		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
 	}
 }

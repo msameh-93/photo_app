@@ -1,6 +1,9 @@
 package com.sameh.photoapp.api.users.dto;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.sameh.photoapp.api.users.model.AlbumResponse;
 
 public class UserDto  implements Serializable {
 
@@ -14,6 +17,7 @@ public class UserDto  implements Serializable {
 	private String email;
 	private String userId;
 	private String encryptedPassword;
+	private List<AlbumResponse> albums;
 	
 	public String getFirstName() {
 		return firstName;
@@ -51,4 +55,11 @@ public class UserDto  implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	public List<AlbumResponse> getAlbums() {
+		return albums;
+	}
+	public void setAlbums(List<AlbumResponse> albums) {
+		this.albums = albums;
+	}
+	
 }

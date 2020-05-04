@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @RestController
-@RequestMapping("/users/{id}/albums")
+@RequestMapping("/api/users/{id}/albums")
 public class AlbumsController {
     
     @Autowired
@@ -34,7 +34,7 @@ public class AlbumsController {
                 MediaType.APPLICATION_JSON_VALUE,
                 MediaType.APPLICATION_XML_VALUE,
             })
-    public List<AlbumResponseModel> userAlbums(@PathVariable String id) {
+    public List<AlbumResponseModel> userAlbums(@PathVariable("id") String id) {
 
         List<AlbumResponseModel> returnValue = new ArrayList<>();
         

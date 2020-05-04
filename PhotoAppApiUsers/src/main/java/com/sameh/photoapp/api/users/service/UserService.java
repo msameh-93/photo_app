@@ -1,10 +1,13 @@
 package com.sameh.photoapp.api.users.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sameh.photoapp.api.users.dto.UserDto;
+import com.sameh.photoapp.api.users.model.AlbumResponse;
 import com.sameh.photoapp.api.users.model.UserEntity;
 import com.sameh.photoapp.api.users.repository.UserRepository;
 
@@ -23,6 +27,12 @@ public class UserService implements UserDetailsService {
 	private UserRepository userRepo;
 	@Autowired
 	private BCryptPasswordEncoder bCrypt;
+	@Autowired
+//	private RestTemplate restTemplate;
+	private AlbumsFeignClient albumsFeign;
+//	@Autowired
+//	private Environment env;
+	Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	public UserDto createUser(UserDto user) {
 		user.setUserId(UUID.randomUUID().toString());
@@ -56,5 +66,25 @@ public class UserService implements UserDetailsService {
 		}
 		
 		return new ModelMapper().map(userFound, UserDto.class);
+	}
+	public UserDto getUserById(String userId) {
+		UserEntity userFound= userRepo.findByUserId(userId);
+		if(userFound==null) {
+			throw new UsernameNotFoundException(userId);
+		}
+//		String albumsUrl= String.format(env.getProperty("microservice.albums.url"), userId);
+//		
+//		ResponseEntity<List<AlbumResponse>> albumsResponse= 
+//				restTemplate.exchange(albumsUrl, 
+//									HttpMethod.GET, 
+//									null, 
+//									new ParameterizedTypeReference<List<AlbumResponse>>() {});
+//		List<AlbumResponse> albums= albumsResponse.getBody();
+		//Feign client
+		List<AlbumResponse> albums= albumsFeign.getAlbums(userId);			
+		UserDto userDto= new ModelMapper().map(userFound, UserDto.class);
+		userDto.setAlbums(albums);
+
+		return userDto;
 	}
 }

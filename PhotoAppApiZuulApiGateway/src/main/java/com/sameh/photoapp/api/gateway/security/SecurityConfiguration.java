@@ -30,10 +30,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.and()
 			.addFilter(new AuthorizationFilter(authenticationManager(), env))
 			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/users_webservice/api/users").permitAll()
-				.antMatchers(HttpMethod.POST, "/users_webservice/api/users/signin").permitAll()
-				.antMatchers(HttpMethod.GET, "/users_webservice/actuator/*").permitAll()
-				.antMatchers("/users_webservice/h2-console").permitAll()
+				.antMatchers(HttpMethod.POST, "/users-webservice/api/users").permitAll()
+				.antMatchers(HttpMethod.POST, "/users-webservice/api/users/signin").permitAll()
+				.antMatchers(HttpMethod.GET, "/users-webservice/actuator/*").permitAll()
+				.antMatchers("/users-webservice/h2-console").permitAll()
 				.antMatchers("/actuator/*").permitAll()
 				.anyRequest().authenticated();
 	}
